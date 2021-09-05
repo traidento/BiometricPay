@@ -13,7 +13,6 @@ import com.surcumference.fingerprint.network.updateCheck.UpdateFactory;
 import com.surcumference.fingerprint.plugin.AlipayBasePlugin;
 import com.surcumference.fingerprint.plugin.PluginApp;
 import com.surcumference.fingerprint.util.Umeng;
-import com.surcumference.fingerprint.util.bugfixer.xposed.XposedLogNPEBugFixer;
 import com.surcumference.fingerprint.util.log.L;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -33,7 +32,6 @@ public class AlipayPlugin extends AlipayBasePlugin {
         try {
             PluginApp.setup(PluginType.Xposed, PluginTarget.Alipay);
             Umeng.init(context);
-            XposedLogNPEBugFixer.fix();
             UpdateFactory.lazyUpdateWhenActivityAlive();
             XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 

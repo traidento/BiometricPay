@@ -14,7 +14,6 @@ import com.surcumference.fingerprint.plugin.PluginApp;
 import com.surcumference.fingerprint.plugin.WeChatBasePlugin;
 import com.surcumference.fingerprint.util.Tools;
 import com.surcumference.fingerprint.util.Umeng;
-import com.surcumference.fingerprint.util.bugfixer.xposed.XposedLogNPEBugFixer;
 import com.surcumference.fingerprint.util.log.L;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -34,7 +33,6 @@ public class WeChatPlugin extends WeChatBasePlugin {
         try {
             PluginApp.setup(PluginType.Xposed, PluginTarget.WeChat);
             Umeng.init(context);
-            XposedLogNPEBugFixer.fix();
             UpdateFactory.lazyUpdateWhenActivityAlive();
             //for multi user
             if (!Tools.isCurrentUserOwner(context)) {

@@ -74,7 +74,7 @@ public class LicenseView extends DialogFrameLayout {
     private WebView initWebView(Context context) throws Exception {
         WebView webView = new WebView(context);
 
-        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(false);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

@@ -27,7 +27,6 @@ public class WeChatPlugin extends WeChatBasePlugin {
     public void main(final Context context, final XC_LoadPackage.LoadPackageParam lpparam) {
         L.d("Xposed plugin init version: " + BuildConfig.VERSION_NAME);
         try {
-            XposedLogNPEBugFixer.fix();
             //for multi user
             if (!Tools.isCurrentUserOwner(context)) {
                 XposedHelpers.findAndHookMethod(UserHandle.class, "getUserId", int.class, new XC_MethodHook() {
@@ -40,14 +39,12 @@ public class WeChatPlugin extends WeChatBasePlugin {
                 });
             }
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onResume", new XC_MethodHook() {
-                @TargetApi(21)
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     onActivityResumed((AppCompatActivity) param.thisObject);
                 }
             });
 
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onPause", new XC_MethodHook() {
-                @TargetApi(21)
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     onActivityPaused((AppCompatActivity) param.thisObject);
                 }

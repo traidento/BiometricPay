@@ -26,7 +26,6 @@ public class AlipayPlugin extends AlipayBasePlugin {
     public void main(final Context context, final XC_LoadPackage.LoadPackageParam lpparam) {
         L.d("Xposed plugin init version: " + BuildConfig.VERSION_NAME);
         try {
-            XposedLogNPEBugFixer.fix();
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 
                 @TargetApi(21)

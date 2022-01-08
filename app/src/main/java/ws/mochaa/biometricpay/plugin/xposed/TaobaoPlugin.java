@@ -27,7 +27,6 @@ public class TaobaoPlugin extends TaobaoBasePlugin {
     public void main(final Context context, final XC_LoadPackage.LoadPackageParam lpparam) {
         L.d("Xposed plugin init version: " + BuildConfig.VERSION_NAME);
         try {
-            XposedLogNPEBugFixer.fix();
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onResume", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -36,7 +35,6 @@ public class TaobaoPlugin extends TaobaoBasePlugin {
             });
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 
-                @TargetApi(21)
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     onActivityCreated((AppCompatActivity) param.thisObject);
                 }

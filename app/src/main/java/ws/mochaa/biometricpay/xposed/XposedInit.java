@@ -92,9 +92,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
     private void initGeneric(final LoadPackageParam lpparam) {
         //for multi user
-        if ("android".equals(lpparam.processName)
-                || Constant.PACKAGE_NAME_WECHAT.equals(lpparam.packageName)
-                || Constant.PACKAGE_NAME_QQ.equals(lpparam.packageName)) {
+        if (PACKAGE_NAME_WECHAT.equals(lpparam.packageName)) {
             XposedHelpers.findAndHookMethod(ActivityManager.class, "checkComponentPermission", String.class, int.class, int.class, boolean.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {

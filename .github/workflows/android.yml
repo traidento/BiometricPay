@@ -10,17 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYYMMDD-HH
-          utcOffset: "+08:00"
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - name: Build Riru modules
-        run: ls riru/Riru-ModuleTemplate
       - name: Decode Keystore
         env:
           ENCODED_STRING: ${{ secrets.SIGNING_STORE_BASE64 }}
@@ -31,8 +23,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
-      - name: Build Riru modules
-        run: cd ./riru && bash ./make.sh
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Build with Gradle
@@ -44,32 +34,4 @@ jobs:
       - name: Upload Apk
         uses: actions/upload-artifact@v2.2.0
         with:
-          name: xposed.${{ steps.current-time.outputs.formattedTime }}
           path: app/build/outputs/apk/release/*.apk
-      - name: Upload Riru Modules
-        uses: actions/upload-artifact@v2.2.0
-        with:
-          name: magisk.${{ steps.current-time.outputs.formattedTime }}
-          path: |
-            riru/build/release/*.zip
-            !riru/build/release/*-all-*.zip
-      - name: Assign release version from version.properties to Env variable
-        run: |
-          cat ./app/build.gradle| grep versionName | sed -E 's/.+"(.+)".*/release_version=\1/g' >> $GITHUB_ENV
-      - name: Echo release version from  Env variable
-        run: |
-          echo "${{ env.release_version }}"
-      - name: Delete drafts
-        uses: hugo19941994/delete-draft-releases@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Release draft
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: true
-          name: "${{ env.release_version }}"
-          tag_name: "${{ env.release_version }}-ci"
-          files: |
-            app/build/outputs/apk/release/*.apk
-            riru/build/release/*.zip
-          body: "[Github Action](https://github.com/${{github.repository}}/actions/runs/${{github.run_id}})"

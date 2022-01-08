@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.surcumference.fingerprint">
+    package="ws.mochaa.biometricpay">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
-        android:name="com.surcumference.fingerprint.XApplication"
+        android:name="ws.mochaa.biometricpay.XApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -30,24 +30,23 @@
             android:resource="@array/scope" />
 
         <activity
-            android:name=".activity.HomeActivity"
-            android:label="@string/app_name">
+            android:name="ws.mochaa.biometricpay.activity.HomeActivity"
+            android:label="@string/app_name"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.WebActivity"
-            android:parentActivityName=".activity.HomeActivity"/>
-        <activity android:name=".activity.SettingsActivity"
-            android:parentActivityName=".activity.HomeActivity"/>
+        <activity android:name="ws.mochaa.biometricpay.activity.SettingsActivity"
+            android:parentActivityName="ws.mochaa.biometricpay.activity.HomeActivity"/>
         <provider
-         android:name=".util.XPreferenceProvider"
-         android:authorities="com.surcumference.fingerprintpay.XPreferenceProvider"
+         android:name="ws.mochaa.biometricpay.util.XPreferenceProvider"
+         android:authorities="ws.mochaa.biometricpay.XPreferenceProvider"
          android:exported="true"/>
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.surcumference.fingerprintpay.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mochaa.biometricpay.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -59,7 +58,8 @@
             android:enabled="true"
             android:name=".Main"
             android:label="@string/app_name"
-            android:targetActivity=".activity.HomeActivity">
+            android:targetActivity="ws.mochaa.biometricpay.activity.HomeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

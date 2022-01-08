@@ -2,7 +2,6 @@ def ADB_PATH = "${android.getSdkDirectory()}/platform-tools/adb"
 def appInfo = [
     Alipay: "com.eg.android.AlipayGphone",
     Taobao: "com.taobao.taobao",
-    QQ:     "com.tencent.mobileqq",
     WeChat: "com.tencent.mm",
 ]
 appInfo.each {entry ->
@@ -43,7 +42,7 @@ android.applicationVariants.all { variant ->
             }
         }
         variant.outputs.each { output ->
-            def apkName = "xposed.${android.defaultConfig.applicationId}.wechatfp.${android.defaultConfig.versionName}.${variant.buildType.name}.apk"
+            def apkName = "app-${variant.buildType.name}.apk"
             output.outputFileName = apkName
         }
     }

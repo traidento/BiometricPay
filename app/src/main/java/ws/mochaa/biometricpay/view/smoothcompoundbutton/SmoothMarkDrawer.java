@@ -99,17 +99,11 @@ public abstract class SmoothMarkDrawer {
     private static ColorFilter makeDisableColorFilter() {
         // http://www.2cto.com/kf/201605/509332.html
         final float rgbValue = 1f;
-        float redValue = rgbValue;
-        float greenValue = rgbValue;
-        float blueValue = rgbValue;
         float alphaValue = 1f;
-        float[] colorArray = new float[]{redValue, 0, 0, 0, 0, 0, greenValue, 0, 0, 0, 0, 0, blueValue, 0, 0, 0, 0,
+        float[] colorArray = new float[]{rgbValue, 0, 0, 0, 0, 0, rgbValue, 0, 0, 0, 0, 0, rgbValue, 0, 0, 0, 0,
                 0, alphaValue, 0};
         ColorMatrix cm = new ColorMatrix(colorArray);
-        // ColorMatrix cm = new ColorMatrix();
-        // cm.setSaturation(0);
-        ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-        return f;
+        return new ColorMatrixColorFilter(cm);
     }
 
     //处理drawable
@@ -120,7 +114,6 @@ public abstract class SmoothMarkDrawer {
         view.invalidate();
     }
 
-    @SuppressLint("NewApi")
     protected void drawableHotspotChanged(float x, float y) {
         // DrawableCompat.setHotspot(mThumbDrawable, x, y);
         mCompatBackgroundDrawable.setHotspot(x, y);
@@ -171,49 +164,22 @@ public abstract class SmoothMarkDrawer {
         return (int) (dp * mDensity + 0.5f);
     }
 
-    protected final float dp2pxFloat(float dp) {
-        return dp * mDensity;
-    }
-
-
-    @SuppressLint("NewApi")
-    private final Drawable makeCompatBackgroundDrawable() {
-        if (REAL_RIPPLE) {
-            // item_background_borderless_material.xml
-            // <ripple
-            // xmlns:android="http://schemas.android.com/apk/res/android"
-            // android:color="?attr/colorControlHighlight" />
-            // RippleDrawable rippleDrawable = new RippleDrawable(color,
-            // content, mask)
-            // RippleDrawable rippleDrawable = new RippleDrawable(new
-            // ColorStateList(new int[][]{{}},
-            // new int[]{colorRipple}), backgroundDrawable, null);
-            // 可以参考http://stackoverflow.com/questions/27787870/how-to-use-rippledrawable-programmatically-in-code-not-xml-with-android-5-0-lo
-            return new RippleDrawable(ColorStateList.valueOf(MaterialColor.DefaultLight.colorControlHighlight), null,
-                    null);
-            // 这么写出来和item_background_borderless_material.xml效果一致，
-            // RippleDrawable貌似默认就是圆的，而且会自动扩散到View边界外面
-            // return rippleDrawable;
-        } else {
-            StateListDrawable backgroundDrawable = new StateListDrawable();
-//			GradientDrawable normalDrawable = new GradientDrawable();
-//			normalDrawable.setColor(0x00000000);
-//			GradientDrawable pressedDrawable = new GradientDrawable();
-//			pressedDrawable.setCornerRadius(99999);// Radius写个很大的数即是圆形
-//			pressedDrawable.setColor(MaterialColor.DefaultLight.colorControlHighlight);
-//			backgroundDrawable.addState(new int[] { android.R.attr.state_pressed }, pressedDrawable);
-//			backgroundDrawable.addState(new int[] {}, normalDrawable);
-            //听说下面这么写比较优雅
-            ShapeDrawable pressedDrawable = new ShapeDrawable(new OvalShape());
-            //MaterialColor.DefaultLight.colorControlHighlight对于ripple还好（因为是背景和水波叠加），对于4.x来说颜色有点深
-            pressedDrawable.getPaint().setColor(0x22000000);
-            backgroundDrawable.addState(new int[]{android.R.attr.state_pressed}, pressedDrawable);
-            backgroundDrawable.addState(new int[]{}, new ColorDrawable(Color.TRANSPARENT));
-            backgroundDrawable.setExitFadeDuration(240);
-            backgroundDrawable.setEnterFadeDuration(240);
-            return backgroundDrawable;
-        }
-
+    private Drawable makeCompatBackgroundDrawable() {
+        // item_background_borderless_material.xml
+        // <ripple
+        // xmlns:android="http://schemas.android.com/apk/res/android"
+        // android:color="?attr/colorControlHighlight" />
+        // RippleDrawable rippleDrawable = new RippleDrawable(color,
+        // content, mask)
+        // RippleDrawable rippleDrawable = new RippleDrawable(new
+        // ColorStateList(new int[][]{{}},
+        // new int[]{colorRipple}), backgroundDrawable, null);
+        // 可以参考http://stackoverflow.com/questions/27787870/how-to-use-rippledrawable-programmatically-in-code-not-xml-with-android-5-0-lo
+        return new RippleDrawable(ColorStateList.valueOf(MaterialColor.DefaultLight.colorControlHighlight), null,
+                null);
+        // 这么写出来和item_background_borderless_material.xml效果一致，
+        // RippleDrawable貌似默认就是圆的，而且会自动扩散到View边界外面
+        // return rippleDrawable;
     }
 
     protected boolean isMarkInRight() {

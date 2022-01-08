@@ -26,7 +26,7 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = findViewById(R.id.list);
         List<PreferenceAdapter.Data> list = new ArrayList<>();
         mListAdapter = new PreferenceAdapter(list);
         listView.setAdapter(mListAdapter);
@@ -38,7 +38,6 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         PreferenceAdapter.Data data = mListAdapter.getItem(i);
         if (data == null || TextUtils.isEmpty(data.title)) {
-            return;
         }
     }
 
@@ -50,10 +49,9 @@ public class HomeActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_settings:
-                SettingsActivity.open(this);
-                return true;
+        if (item.getItemId() == R.id.item_settings) {
+            SettingsActivity.open(this);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -119,7 +119,7 @@ public class SmoothRadioGroup extends LinearLayout {
 
     private void setCheckedStateForView(int viewId, boolean checked) {
         View checkedView = findViewById(viewId);
-        if (checkedView != null && checkedView instanceof SmoothRadioButton) {
+        if (checkedView instanceof SmoothRadioButton) {
             ((SmoothRadioButton) checkedView).setChecked(checked);
         }
     }

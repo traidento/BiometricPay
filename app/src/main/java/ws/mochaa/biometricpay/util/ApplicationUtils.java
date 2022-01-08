@@ -48,8 +48,7 @@ public class ApplicationUtils {
                 if (!pausedField.getBoolean(activityRecord)) {
                     Field activityField = activityRecordClass.getDeclaredField("activity");
                     activityField.setAccessible(true);
-                    AppCompatActivity activity = (AppCompatActivity) activityField.get(activityRecord);
-                    return activity;
+                    return (AppCompatActivity) activityField.get(activityRecord);
                 }
             }
         } catch (Exception e) {
@@ -61,8 +60,7 @@ public class ApplicationUtils {
     public static int getPackageVersionCode(Context context, String packageName) {
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(packageName, 0);
-            int versionCode = packageInfo.versionCode;
-            return versionCode;
+            return packageInfo.versionCode;
         } catch (Exception e) {
             L.e(e);
         }

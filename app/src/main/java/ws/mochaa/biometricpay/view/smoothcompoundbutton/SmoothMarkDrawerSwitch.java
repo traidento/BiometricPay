@@ -23,11 +23,6 @@ import androidx.core.view.MotionEventCompat;
 
 public class SmoothMarkDrawerSwitch extends SmoothMarkDrawer {
 
-//	private static final int DEFAULT_COLOR_THUMB_OFF = 0xffececec;
-//	private static final int DEFAULT_COLOR_THUMB_ON = MaterialColor.DefaultLight.colorPrimary;
-//	private static final int DEFAULT_COLOR_TRACK_OFF = 0x60000000;
-//	private static final int DEFAULT_COLOR_TRACK_ON = 0x60bdbdbd;
-
     private static final float PERCENT_TRACK_INSET_X = 0.33f;
     private static final float PERCENT_TRACK_INSET_Y = 0.23f;
     private static final float PERCENT_THUMB_INSET = 0.0f;// 0.12f;
@@ -46,7 +41,6 @@ public class SmoothMarkDrawerSwitch extends SmoothMarkDrawer {
     private final int mTouchSlop;
     private float mTouchX;
     private float mTouchY;
-    @SuppressLint("Recycle")
     private final VelocityTracker mVelocityTracker = VelocityTracker.obtain();
     private final int mMinFlingVelocity;
 
@@ -253,10 +247,9 @@ public class SmoothMarkDrawerSwitch extends SmoothMarkDrawer {
         canvas.drawRoundRect(mTrackRectF, mTrackRectF.height() / 2f, mTrackRectF.height() / 2f, mPaint);
 
         //draw thumb
-        final float thumbSize = height;
-        final float thumbFullOffset = width - thumbSize;//总共可以移动的距离
+        final float thumbFullOffset = width - height;//总共可以移动的距离
         mThumbRectF.left = left + thumbFullOffset * fraction;
-        mThumbRectF.right = mThumbRectF.left + thumbSize;
+        mThumbRectF.right = mThumbRectF.left + height;
         mThumbRectF.top = mBounds.top;
         mThumbRectF.bottom = mBounds.bottom;
 
@@ -363,7 +356,7 @@ public class SmoothMarkDrawerSwitch extends SmoothMarkDrawer {
      * Taken from android.util.MathUtils
      */
     private static float constrain(float amount, float low, float high) {
-        return amount < low ? low : (amount > high ? high : amount);
+        return amount < low ? low : (Math.min(amount, high));
     }
 
 }

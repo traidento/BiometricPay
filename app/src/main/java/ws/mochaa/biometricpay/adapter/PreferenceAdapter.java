@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -58,7 +57,7 @@ public class PreferenceAdapter extends BaseAdapter {
             view = new ViewHolder(viewGroup.getContext()).itemView;
         }
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-        viewHolder.bind(position, (Data) getItem(position));
+        viewHolder.bind(getItem(position));
         return view;
     }
 
@@ -87,14 +86,14 @@ public class PreferenceAdapter extends BaseAdapter {
             titleText = new TextView(context);
             StyleUtils.apply(titleText);
             titleText.setPadding(0, 0, 0, 0);
-            titleText.setGravity(Gravity.BOTTOM | Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            titleText.setGravity(Gravity.BOTTOM | Gravity.START | Gravity.CENTER_VERTICAL);
 
             subTitleText = new TextView(context);
             StyleUtils.apply(subTitleText);
             subTitleText.setTextColor(TEXT_COLOR_SECONDARY);
             subTitleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, TEXT_SIZE_SMALL);
             subTitleText.setPadding(0, 0, 0, 0);
-            subTitleText.setGravity(Gravity.TOP | Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            subTitleText.setGravity(Gravity.TOP | Gravity.START | Gravity.CENTER_VERTICAL);
 
 
             verticalLayout.setPadding(defHPadding, DpUtils.dip2px(context, 7), defHPadding, DpUtils.dip2px(context, 7));
@@ -102,10 +101,8 @@ public class PreferenceAdapter extends BaseAdapter {
             verticalLayout.addView(subTitleText);
 
             selectBox = new SmoothSwitch(context);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                selectBox.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
-                selectBox.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
-            }
+            selectBox.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+            selectBox.setBackgroundTintMode(PorterDuff.Mode.SRC_OVER);
             selectBox.setClickable(false);
             selectBox.setEnabled(false);
             selectBox.setAlpha(1);
@@ -122,7 +119,7 @@ public class PreferenceAdapter extends BaseAdapter {
             itemView.setTag(this);
         }
 
-        public void bind(int position, Data data) {
+        public void bind(Data data) {
             if (data == null) {
                 return;
             }

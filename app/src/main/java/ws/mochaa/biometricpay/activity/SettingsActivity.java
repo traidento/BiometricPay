@@ -51,7 +51,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
     private void onShowIconChange(boolean showIcon) {
         int state = showIcon ? PackageManager.COMPONENT_ENABLED_STATE_DEFAULT : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-        ComponentName aliasName = new ComponentName(this, "com.surcumference.fingerprint.Main");
+        ComponentName aliasName = new ComponentName(this, "ws.mochaa.biometricpay.Main");
         getPackageManager().setComponentEnabledSetting(aliasName, state, PackageManager.DONT_KILL_APP);
     }
 }

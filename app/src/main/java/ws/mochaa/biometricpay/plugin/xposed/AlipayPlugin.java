@@ -13,7 +13,6 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import ws.mochaa.biometricpay.BuildConfig;
 import ws.mochaa.biometricpay.plugin.AlipayBasePlugin;
-import ws.mochaa.biometricpay.util.bugfixer.xposed.XposedLogNPEBugFixer;
 import ws.mochaa.biometricpay.util.log.L;
 
 /**
@@ -29,7 +28,7 @@ public class AlipayPlugin extends AlipayBasePlugin {
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 
                 @TargetApi(21)
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void afterHookedMethod(MethodHookParam param) {
                     onActivityCreated((AppCompatActivity) param.thisObject);
                 }
             });

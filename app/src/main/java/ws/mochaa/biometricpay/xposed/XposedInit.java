@@ -26,11 +26,11 @@ import ws.mochaa.biometricpay.xposed.loader.XposedPluginLoader;
 public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage {
 
 
-    public void initZygote(StartupParam startupParam) throws Throwable {
+    public void initZygote(StartupParam startupParam) {
     }
 
     @Override
-    public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
+    public void handleLoadPackage(final LoadPackageParam lpparam) {
         if (Constant.PACKAGE_NAME_WECHAT.equals(lpparam.packageName)) {
             initWechat(lpparam);
         } else if (Constant.PACKAGE_NAME_ALIPAY.equals(lpparam.packageName)) {
@@ -77,7 +77,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 L.d("Application onCreate");
-                if (mCalled == false) {
+                if (!mCalled) {
                     mCalled = true;
                     Context context = (Context) param.args[0];
                     if (context == null) {
@@ -92,10 +92,10 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
 
     private void initGeneric(final LoadPackageParam lpparam) {
         //for multi user
-        if (PACKAGE_NAME_WECHAT.equals(lpparam.packageName)) {
+        if (Constant.PACKAGE_NAME_WECHAT.equals(lpparam.packageName)) {
             XposedHelpers.findAndHookMethod(ActivityManager.class, "checkComponentPermission", String.class, int.class, int.class, boolean.class, new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void afterHookedMethod(MethodHookParam param) {
                     String permission = (String) param.args[0];
                     if (TextUtils.isEmpty(permission)) {
                         return;

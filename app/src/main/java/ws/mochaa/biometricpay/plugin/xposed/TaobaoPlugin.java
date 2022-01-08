@@ -13,7 +13,6 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import ws.mochaa.biometricpay.BuildConfig;
 import ws.mochaa.biometricpay.plugin.TaobaoBasePlugin;
-import ws.mochaa.biometricpay.util.bugfixer.xposed.XposedLogNPEBugFixer;
 import ws.mochaa.biometricpay.util.log.L;
 
 /**
@@ -29,13 +28,13 @@ public class TaobaoPlugin extends TaobaoBasePlugin {
         try {
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onResume", new XC_MethodHook() {
                 @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void afterHookedMethod(MethodHookParam param) {
                     onActivityResumed((AppCompatActivity) param.thisObject);
                 }
             });
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onCreate", Bundle.class, new XC_MethodHook() {
 
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                protected void afterHookedMethod(MethodHookParam param) {
                     onActivityCreated((AppCompatActivity) param.thisObject);
                 }
             });

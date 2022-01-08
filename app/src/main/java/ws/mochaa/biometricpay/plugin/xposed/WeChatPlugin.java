@@ -14,7 +14,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import ws.mochaa.biometricpay.BuildConfig;
 import ws.mochaa.biometricpay.plugin.WeChatBasePlugin;
 import ws.mochaa.biometricpay.util.Tools;
-import ws.mochaa.biometricpay.util.bugfixer.xposed.XposedLogNPEBugFixer;
 import ws.mochaa.biometricpay.util.log.L;
 
 /**
@@ -31,7 +30,7 @@ public class WeChatPlugin extends WeChatBasePlugin {
             if (!Tools.isCurrentUserOwner(context)) {
                 XposedHelpers.findAndHookMethod(UserHandle.class, "getUserId", int.class, new XC_MethodHook() {
                     @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    protected void afterHookedMethod(MethodHookParam param) {
                         if (mMockCurrentUser) {
                             param.setResult(0);
                         }
@@ -39,13 +38,13 @@ public class WeChatPlugin extends WeChatBasePlugin {
                 });
             }
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onResume", new XC_MethodHook() {
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                protected void beforeHookedMethod(MethodHookParam param) {
                     onActivityResumed((AppCompatActivity) param.thisObject);
                 }
             });
 
             XposedHelpers.findAndHookMethod(AppCompatActivity.class, "onPause", new XC_MethodHook() {
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                protected void beforeHookedMethod(MethodHookParam param) {
                     onActivityPaused((AppCompatActivity) param.thisObject);
                 }
             });

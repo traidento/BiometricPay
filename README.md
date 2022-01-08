@@ -1,4 +1,4 @@
-
+自用，和原版相比移除了umeng和检查更新。因为对riru不是那么了解还移除了些riru相关的代码。
 
 ![1](https://github.com/eritpchy/FingerprintPay/raw/main/app/src/main/res/mipmap-xhdpi/ic_launcher.png)
 # FingerprintPay

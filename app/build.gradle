@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 32
+    compileSdk 32
     buildToolsVersion '32.0.0'
     defaultConfig {
         applicationId "ws.mochaa.biometricpay"
@@ -19,12 +19,6 @@ android {
             shrinkResources false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    repositories{
-        flatDir{
-            dirs 'libs'
         }
     }
 

@@ -22,22 +22,18 @@ appInfo.each {entry ->
         args = ['shell', "package=${android.defaultConfig.applicationId}&& cp -f \$(pm path \$package| cut -d: -f2) /data/local/tmp/\$package.apk && chmod 777 /data/local/tmp/\$package.apk"]
     }
     debugXposedTask.finalizedBy(startTask)
-    def debugMagiskTask = tasks.create(name: "debug${name}Magisk", dependsOn: ["mergeDexDebug", stopTask], type: Exec) {
-        def classDexPath = new File(project.buildDir, "intermediates/dex/debug/out/classes.dex").absolutePath
-        executable = ADB_PATH
-        args = ['push', classDexPath, "/data/local/tmp/libriru-module-xfingerprint-pay-${name.toLowerCase()}.dex"]
-    }
-    debugMagiskTask.finalizedBy(startTask)
 }
 
 android.applicationVariants.all { variant ->
     variant.getCompileConfiguration().resolutionStrategy {
-        if (variant.install != null) {
-            variant.install.doLast {
-                println "Running app..."
-                exec {
-                    executable = ADB_PATH
-                    args = ['shell', "monkey -p ${variant.applicationId} -c android.intent.category.LAUNCHER 1"]
+        if (variant.installProvider != null) {
+            variant.installProvider.configure {
+                doLast {
+                    println "Running app..."
+                    exec {
+                        executable = ADB_PATH
+                        args = ['shell', "monkey -p ${variant.applicationId} -c android.intent.category.LAUNCHER 1"]
+                    }
                 }
             }
         }
